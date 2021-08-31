@@ -11,6 +11,7 @@ import 'popper.js/dist/popper.js'
 import '@fortawesome//fontawesome-free/css/fontawesome.min.css'
 import { MainMenu, MainMenuItem } from './components/MainMenu';
 import { HashRouter, Route, Switch} from 'react-router-dom';
+import Game from './components/Game';
 
 const items = [
   new MainMenuItem("Pocetna", '/'),
@@ -25,6 +26,7 @@ ReactDOM.render(
         <Switch>
           <Route exact path='/' component={Home}/>
           <Route exact path='/new/game' component={NewGame}/>
+          <Route exact path='/game/:gId' component={Game}/>
         </Switch>
       </HashRouter>
       <Home />
