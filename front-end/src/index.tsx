@@ -1,17 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/App/App';
+import Home from './components/Home/Home';
+import NewGame from './components/NewGame';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import 'jquery/dist/jquery.js'
 import 'popper.js/dist/popper.js'
 import '@fortawesome//fontawesome-free/css/fontawesome.min.css'
+import { MainMenu, MainMenuItem } from './components/MainMenu';
+import { HashRouter, Route, Switch} from 'react-router-dom';
+
+const items = [
+  new MainMenuItem("Pocetna", '/'),
+  new MainMenuItem("Nova igra", '/new/game'),
+  new MainMenuItem("Log in", '/login'),
+]
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <MainMenu items={items}></MainMenu>
+      <HashRouter>
+        <Switch>
+          <Route exact path='/' component={Home}/>
+          <Route exact path='/new/game' component={NewGame}/>
+        </Switch>
+      </HashRouter>
+      <Home />
   </React.StrictMode>,
   document.getElementById('root')
 );
