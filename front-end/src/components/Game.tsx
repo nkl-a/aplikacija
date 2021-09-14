@@ -1,67 +1,55 @@
-import React from "react";
+import React, { Component } from "react";
 import { Card, Container } from "react-bootstrap";
-import GameType from "../types/GameType";
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { ArrayTypeNode, ObjectType } from "typescript";
 
-interface GamePageProps {
-    match: {
-        params: {
-            gId: number
-        }
+
+interface Game { game_id: number, game_players_id: number, game_type_id: number, word_id: number }
+
+
+ class Game extends Component<RouteComponentProps> {
+
+    state = {
+        gameId: '',
+        word: ''
     }
-}
-
-interface GamePageState {
-    game?: GameType;
-}
-
- export default class Game extends React.Component<GamePageProps> {
-     state: GamePageState;
-
-     constructor(props: Readonly<GamePageProps>) {
-         super(props)
-
-         this.state = {}
-     }
 
 
      render() {
+        
          return (
              <Container>
                  <Card>
                      <Card.Body>
                          <Card.Title>
-                            {this.state.game?.gameType}
+                            Igra broj: {this.state.gameId} <br/>
+                            Pogadja se rec: <b>{this.state.word}</b>
                          </Card.Title>
+
+                         <img src={'/images/hangman6.png'}  alt="hangman" />
                      </Card.Body>
                  </Card>
              </Container>
          )
      }
 
-     componentWillMount() {
-        this.getGameData(); 
+     componentDidMount() {
+        const state = this.props.location.state;
+        
+        console.log((state as any)?.game[0])
+
+        this.setState({
+            gameId: (state as any)?.game[0].word_id,
+            word:  (state as any)?.game[0].word,
+        })
+
+        
+
      }
 
-     componentWillReceiveProps(newProps: GamePageProps) {
-         if(newProps.match.params.gId === this.props.match.params.gId){
-             return;
-         }
-         
-         this.getGameData();
-     }
 
-     private getGameData() {
-        setTimeout(() => {
-            const data: GameType = {
-               gameType: 'Igra ' + this.props.match.params.gId
-            }
-
-            this.setState({
-               game: data
-           })
-
-
-        }, 760);
-     }
 
  }
+
+ export default withRouter(Game);
+
